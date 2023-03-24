@@ -1,23 +1,43 @@
 const fs = require("fs/promises");
 const path = require("path");
+const { v4 } = require("uuid");
 const contactsPath =path.join(__dirname,"contacts.json");
  
 async function listContacts() {
   const data = await fs.readFile(contactsPath);
   const contacts = JSON.parse(data);
   return contacts;
-}
+};
 
-function getContactById(contactId) {
-  // ...твой код
-}
+async function getContactById(contactId) {
+  const contacts = await listContacts();
+  const result = contacts.find(item => {
+    item.id === contactId;
+    if (!result) {
+      return null;
+    }
+    return result;
+  })
+  
+};
 
 function removeContact(contactId) {
   // ...твой код
 }
 
-function addContact(name, email, phone) {
-  // ...твой код
+
+
+async function addContact(name,email,phone) {
+  const contacts = await listContacts();
+  const NewContact = { ...name,...email,...phone, id:v4()};
+  contacts.push(NewContact);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  return NewContact;
 }
 
-module.exports = listContacts;
+module.exports = {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact
+};
