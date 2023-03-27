@@ -1,12 +1,14 @@
-const contactsOperations = require("./contacts.js")
-// const argv = require("yargs").argv;
+const contactsOperations = require("./contacts.js");
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+const argv = yargs(hideBin(process.argv)).argv;
 
 
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const contacts = await contactsOperations.listContacts();
-      console.log(contacts)
+      console.table(contacts)
       break;
 
     case "get":
@@ -36,4 +38,4 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
  
-invokeAction({ action: 'remove',id:'1e6859d2-66bd-43ce-8225-1f513d8fffdb' })
+invokeAction(argv)
