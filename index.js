@@ -1,16 +1,20 @@
+const contactsOperations = require("./contacts.js")
+// const argv = require("yargs").argv;
 
-// const contactsOperations = require("./contacts.js")
-const argv = require("yargs").argv;
 
-
-function invokeAction({ action, id, name, email, phone }) {
+async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      // ...
+      const contacts = await contactsOperations.listContacts();
+      console.log(contacts)
       break;
 
     case "get":
-      // ... id
+      const contact = await contactsOperations.getContactById(id);
+      if (!contact) {
+        throw new Error(`Contact with id=${id} not found`)
+      }
+      console.log(contact);
       break;
 
     case "add":
@@ -25,5 +29,5 @@ function invokeAction({ action, id, name, email, phone }) {
       console.warn("\x1B[31m Unknown action type!");
   }
 }
-
-invokeAction(argv);
+ 
+invokeAction({ action: 'get', id });
