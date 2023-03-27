@@ -11,21 +11,24 @@ async function listContacts() {
 
 async function getContactById(id) {
   const contacts = await listContacts();
-  
-  const result = contacts.find(item =>
+    const result = contacts.find(item =>
     item.id === id);
     if (!result) {
       return null;
     }
     return result;
-   
+   };
+
+async function removeContact(id) {
+  const contacts = await listContacts();
+  const idx = contacts.findIndex(item => item.id === id);
+  if (idx === -1) {
+    return null;
+  }
+  const [deleteContact] = contacts.splice(idx, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  return deleteContact;
 };
-
-function removeContact(contactId) {
-  // ...твой код
-}
-
-
 
 async function addContact(name,email,phone) {
   const contacts = await listContacts();

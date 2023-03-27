@@ -27,7 +27,8 @@ async function invokeAction({ action, id, name, email, phone }) {
       break;
 
     case "remove":
-      // ... id
+      const deleteContact = await contactsOperations.removeContact(id);
+      console.log(deleteContact);
       break;
 
     default:
@@ -35,6 +36,4 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
  
-invokeAction({ action: 'add',  name: 'Afinna',
-        email: 'anna@gmail.com',
-        phone: '0958743567' });
+invokeAction({ action: 'remove',id:'1e6859d2-66bd-43ce-8225-1f513d8fffdb' })
